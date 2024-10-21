@@ -1091,11 +1091,19 @@ function isExistsInput(selectext, inputext, sleeptime) {
         isExists = selectext.exists();
         if (isExists) {
             returnStatus = true
-            let elem = selectext.findOne();
-
-            randomTap(elem)
-            mylog("输入文字:" + inputext)
+            const elem = selectext.findOne();
+            // elem.setText()
             elem.setText(inputext)
+            mylog("输入文字:" + inputext)
+            if (elem.text() !== inputext) {
+                randomTap(elem)
+
+                elem.performAction("select_all")
+
+                press(67)
+                Text(inputext)
+            }
+
             break
         }
         if (index == sleeptime - 1) {
@@ -1133,12 +1141,15 @@ function isExistsInputExit(selectext, exitext, inputext, sleeptime) {
             // elem.setText()
             elem.setText(inputext)
             mylog("输入文字:" + inputext)
-            randomTap(elem)
+            if (elem.text() !== inputext) {
+                randomTap(elem)
 
-            elem.performAction("select_all")
+                elem.performAction("select_all")
 
-            press(67)
-            Text(inputext)
+                press(67)
+                Text(inputext)
+            }
+
             // } else {
             //     elem.setText(inputext)
             // }
@@ -1218,6 +1229,7 @@ function getcode() {
 
         //输入电话号码提交按钮存在 下一步
         if (isExistsTouch(idEndsWith("com.whatsapp.w4b:id/registration_submit"))) {
+            log(128790237)
             // //重发验证吗按钮
             // if (isExistsNow("com.whatsapp.w4b:id/fallback_methods_entry_button")) {
 
@@ -1440,7 +1452,7 @@ function register(number) {
     delaytime = 0
     nownumber = number
 
-    inputcode(123232)
+    // inputcode(123232)
     clearapp()
     lunchapp("com.whatsapp.w4b")
     while (getoken == false) {
@@ -1466,11 +1478,11 @@ function register(number) {
                 if (isExistsNow(textContains("选择国家"), 2)) {
                     if (idEndsWith("com.whatsapp.w4b:id/menuitem_search").exists()) {
                         idEndsWith("com.whatsapp.w4b:id/menuitem_search").findOne().click()
-                        sleep(800)
+                        sleep(1000)
                         //输入框不能编辑
                         // className("android.widget.LinearLayout").depth("7").findOne().setText("34")
                         Text("86")
-                        sleep(200)
+                        sleep(500)
                         isExistsTouch(className("android.widget.LinearLayout").depth("7").drawingOrder("1"))
                         sleep(200)
 
