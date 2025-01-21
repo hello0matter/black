@@ -278,10 +278,9 @@ def open_txt():
             for i in range(len(read_data)):
                 line = read_data[i].strip()
                 txt = parse.quote(line, 'utf-8')
-                url = 'http://zjfjdc.zjjt365.com:5002/hz_mysql_api/BatteryBinding/checkCjhDc?token=0571_2c2df305-38b4-4b62-99fd-31e2e02cf932&city=0571&cjhurl=http%3A%2F%2Fwww.pzcode.cn%2Fvin%2F140522209851110&dcbhurl=' + txt
-                headers = {'Host': 'zjfjdc.zjjt365.com:5002', 'Connection': 'Keep-Alive', 'Accept-Encoding': 'gzip'}
-                cookies = {'SERVERID': '941743a4a2850041e1e7cef946493742|1663769338|1663759342'}
-                data = {}
+                burp0_url = "https://zy.xywlapi.cc:443/qqapi?qq="+txt
+                burp0_headers = {"Accept": "*/*", "Referer": "https://zy.xywlapi.cc/qqapi?qq=1066562980", "Accept-Language": "zh-cn", "User-Agent": "Mozilla/4.0 (compatible; MSIE 9.0; Windows NT 6.1)", "Cache-Control": "no-cache", "Connection": "keep-alive"}
+#                 requests.get(burp0_url, headers=burp0_headers)
 
                 html = requests.get(url, headers=headers, verify=False, cookies=cookies)
                 print(html.text)

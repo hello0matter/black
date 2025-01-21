@@ -178,18 +178,17 @@ def main():
     modules_info = []
     start_ea = 0
     end_ea = []
-    so_modules = ["libhello-jni.so"]        # module name
+    so_modules = ["libnative-lib.so"]        # module name
     for module in idc._get_modules():
         module_name = os.path.basename(module.name)
         for so_module in so_modules:
             if re.search(so_module, module_name, re.IGNORECASE):
                 print("modules_info append %08X %s %08X" % (module.base, module.name, module.size))
-                if module_name == "libhello-jni.so":
+                if module_name == "libnative-lib.so":
                     modules_info.append({"base": module.base, "size": module.size, "name": module.name})
-                    print(module.base + 0x1CFF0)
-                    start_ea = (module.base + 0x1CFF0)      # start address
-                    end_ea = [((module.base + 0x1D6D4))]    # end address
-                    break
+                    print(module.base + 0x19A84,"666")
+                    start_ea = (module.base + 0x19A84)      # start address
+                    end_ea = [((module.base + 0x1A0FC))]    # end address
 
     if start_ea:
         set_breakpoint(start_ea)
@@ -204,9 +203,7 @@ def main():
 
     debughook = MyDbgHook(modules_info, skip_functions, end_ea)
 
-    pass
 
 
 if __name__ == "__main__":
     main()
-    pass

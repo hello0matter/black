@@ -1,41 +1,26 @@
-Java.perform(function () {
-    // 获取 File 类
-    var File = Java.use("java.io.File");
+function hook_java() {
+    Java.perform(function () {
+        let RandomStringUtils = Java.use("org.apache.commons.lang3.RandomStringUtils");
+        let randomStr = RandomStringUtils.randomAlphabetic(10)
+        randomStr = "VSmPovElWH"
+        console.log("\nrandomStr --> " + randomStr)
+        let e_arg = Java.use("java.lang.String").$new("pediy_imyang_").concat(randomStr)
+        console.log("e_arg --> " + e_arg)
+        e_arg = Java.use("java.lang.String").$new(e_arg).getBytes()
+        console.log("e_arg_bytes --> " + e_arg)
+        let MainObj = null
+        Java.choose("com.kanxue.ollvm5.MainActivity", {
+            onMatch(instance) {
+                MainObj = instance
+            }, onComplete() {
 
-    // Hook File.delete() 方法
-    File.delete.implementation = function () {
-        // 获取文件名
-        var filePath = this.getAbsolutePath();
-
-        // 检查文件是否以 .mp3 结尾
-        if (filePath.endsWith(".mp3")) {
-            console.log("Attempting to delete MP3 file: " + filePath);
-            // 播放 MP3 文件
-            playMp3(filePath);
-            // 阻止文件删除
-            console.log("Blocked deletion of: " + filePath);
-            return false; // 返回 false 阻止删除
-        }
-
-        // 对于其他文件，正常删除
-        console.log("Deleting file: " + filePath);
-        return this.delete(); // 调用原始删除方法
-    };
-
-    // 播放 MP3 文件的方法
-    function playMp3(filePath) {
-        try {
-            var MediaPlayer = Java.use("android.media.MediaPlayer");
-            var mediaPlayer = MediaPlayer.$new();
-
-            // 设置数据源
-            mediaPlayer.setDataSource(filePath);
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-
-            console.log("Playing MP3 file: " + filePath);
-        } catch (e) {
-            console.error("Error playing MP3: " + e);
-        }
-    }
-});
+            }
+        })
+        let e_ret = MainObj.e(e_arg)
+        console.log("func e_ret --> " + e_ret)
+        let ByteString = Java.use("okio.ByteString")
+        let hex_txt = ByteString.of(e_ret).hex()
+        console.log("hex_txt --> " + hex_txt)
+    })
+}
+setImmediate(hook_java)
